@@ -16,14 +16,14 @@ console.log('app.js is running!');
 //if not, no options.
 
 
-var rootApp = {
+const rootApp = {
     title: 'Indecision App',
     subTitle: 'Put yo life in the hands of a computah',
     options: [ 'One', 'Two']
 
 }
 
-var indecisonTemplate = (
+const indecisonTemplate = (
     <div>
         <h1> {rootApp.title} </h1>
         { rootApp.subTitle && <h3>{rootApp.subTitle}</h3>}
@@ -38,7 +38,7 @@ var indecisonTemplate = (
 );
 
 
-var template = ( 
+const template = ( 
     <div> 
         <h1> Indecision App</h1>
         <h2> Kristian </h2>
@@ -96,7 +96,7 @@ for ( var x = 0; x < 1000; x++){
     console.log(counter); //lol
 }
 
-let templateTwo = (
+const templateTwo = (
     <div>
         <h1>{ 
             user.name ? user.name : 'Anon'
@@ -131,7 +131,7 @@ let templateTwo = (
 
 
 
-var appRoot = document.getElementById("app");
+const appRoot = document.getElementById("app");
 
 ReactDOM.render(
     indecisonTemplate,
