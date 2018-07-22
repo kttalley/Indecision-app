@@ -83,7 +83,7 @@ const reRenderTemplate = () => {
             </button>
             {
                // [ <p key = '0'>a</p>, <p key = '1'>b</p>, <p key = '2'>c</p>]
-                numbers.map( (number) => <p key={number}>Number: {number}</p>)
+                // numbers.map( (number) => <p key={number}>Number: {number}</p>)
             }
         </div>
     );

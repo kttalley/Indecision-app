@@ -113,17 +113,7 @@ var reRenderTemplate = function reRenderTemplate() {
             'button',
             { onClick: resetButton },
             'Restart your to-do list.'
-        ),
-
-        // [ <p key = '0'>a</p>, <p key = '1'>b</p>, <p key = '2'>c</p>]
-        numbers.map(function (number) {
-            return React.createElement(
-                'p',
-                { key: number },
-                'Number: ',
-                number
-            );
-        })
+        )
     );
     ReactDOM.render(indecisonTemplate, appRoot);
 };
