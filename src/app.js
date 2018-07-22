@@ -91,10 +91,10 @@ function getName(name){
     
 }
 
-for ( var x = 0; x < 1000; x++){
-    counter+=x;
-    console.log(counter); //lol
-}
+// for ( var x = 0; x < 1000; x++){
+//     counter+=x;
+//     console.log(counter); //lol
+// }
 
 const templateTwo = (
     <div>
@@ -124,7 +124,39 @@ const templateTwo = (
      
     </div>
 );
+let count = 0;
+let someId = 'javaScriptVar-forID'
+let subId = 'subId';
 
+const addOne = () => {
+    console.log('addOne');
+};
+const subOne = () => {
+    console.log('subOne');
+};
+const resetCount = () => {
+    console.log( 'reset' );
+};
+const templateThree = (
+  <div>
+    <h1>
+        Count: {count}
+    </h1>
+    <button id = {someId} className = "button" onClick = { addOne }>
+        +1
+    </button>
+    <button id = {subId} className = "subButton" onClick = { subOne }>
+        -1
+    </button>
+    <button id = {someId} className = "button" onClick = { resetCount }>
+        Reset
+    </button>
+  </div>
+);
+
+
+//challenge make button = -1 = setup minusOne function adn register -log "minusOne"
+//make reset button 'reset' - setup reset function - log 'reset' 
 
 
 
@@ -134,7 +166,8 @@ const templateTwo = (
 const appRoot = document.getElementById("app");
 
 ReactDOM.render(
-    indecisonTemplate,
+    // indecisonTemplate,
     // templateTwo,
+    templateThree,
     appRoot
 );
