@@ -40,7 +40,7 @@ const onFormSubmit = (e) => {
 };
 
 const subButton = () => {
-    rootApp.options.splice(-1);
+    rootApp.options.length > 0 && rootApp.options.splice(-1);
     optionCount = rootApp.options.length;
     reRenderTemplate();
 }
@@ -52,6 +52,7 @@ const resetButton = () => {
     
 }
 
+const numbers = [200, 55, 101];
 
 const reRenderTemplate = () => {
     const indecisonTemplate = (
@@ -62,8 +63,10 @@ const reRenderTemplate = () => {
             {rootApp.options.length > 0 ? <p> There be options. </p> : <p>No options.</p>}
             <p> Amount of Options: {optionCount}</p>
             <ol>
-                <li> this is a list item </li>
-                <li> this is a list item </li>
+                {/* map over app.options getting back an array of list */}
+                {rootApp.options.map( (option) => {
+                  return <li key = {option}>{option} </li>  
+                })}
             </ol>
     
             <form onSubmit = {onFormSubmit}>
@@ -78,7 +81,10 @@ const reRenderTemplate = () => {
             <button onClick = {resetButton}>
                 Restart your to-do list.
             </button>
-
+            {
+               // [ <p key = '0'>a</p>, <p key = '1'>b</p>, <p key = '2'>c</p>]
+                numbers.map( (number) => <p key={number}>Number: {number}</p>)
+            }
         </div>
     );
     ReactDOM.render(

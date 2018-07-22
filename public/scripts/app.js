@@ -38,7 +38,7 @@ var onFormSubmit = function onFormSubmit(e) {
 };
 
 var subButton = function subButton() {
-    rootApp.options.splice(-1);
+    rootApp.options.length > 0 && rootApp.options.splice(-1);
     optionCount = rootApp.options.length;
     reRenderTemplate();
 };
@@ -48,6 +48,8 @@ var resetButton = function resetButton() {
     optionCount = rootApp.options.length;
     reRenderTemplate();
 };
+
+var numbers = [200, 55, 101];
 
 var reRenderTemplate = function reRenderTemplate() {
     var indecisonTemplate = React.createElement(
@@ -83,16 +85,14 @@ var reRenderTemplate = function reRenderTemplate() {
         React.createElement(
             'ol',
             null,
-            React.createElement(
-                'li',
-                null,
-                ' this is a list item '
-            ),
-            React.createElement(
-                'li',
-                null,
-                ' this is a list item '
-            )
+            rootApp.options.map(function (option) {
+                return React.createElement(
+                    'li',
+                    { key: option },
+                    option,
+                    ' '
+                );
+            })
         ),
         React.createElement(
             'form',
@@ -113,7 +113,17 @@ var reRenderTemplate = function reRenderTemplate() {
             'button',
             { onClick: resetButton },
             'Restart your to-do list.'
-        )
+        ),
+
+        // [ <p key = '0'>a</p>, <p key = '1'>b</p>, <p key = '2'>c</p>]
+        numbers.map(function (number) {
+            return React.createElement(
+                'p',
+                { key: number },
+                'Number: ',
+                number
+            );
+        })
     );
     ReactDOM.render(indecisonTemplate, appRoot);
 };
