@@ -18,194 +18,106 @@ console.log('app.js is running!');
 var rootApp = {
     title: 'Indecision App',
     subTitle: 'Put yo life in the hands of a computah',
-    options: ['One', 'Two']
+    options: []
 
 };
 
-var indecisonTemplate = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        ' ',
-        rootApp.title,
-        ' '
-    ),
-    rootApp.subTitle && React.createElement(
-        'h3',
-        null,
-        rootApp.subTitle
-    ),
-    rootApp.options.length > 0 ? React.createElement(
-        'p',
-        null,
-        ' There be options. '
-    ) : React.createElement(
-        'p',
-        null,
-        'No options.'
-    ),
-    React.createElement(
-        'ol',
-        null,
-        React.createElement(
-            'li',
-            null,
-            ' this is a list item '
-        ),
-        React.createElement(
-            'li',
-            null,
-            ' this is a list item '
-        )
-    )
-);
+var optionCount = 0;
 
-var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        ' Indecision App'
-    ),
-    React.createElement(
-        'h2',
-        null,
-        ' Kristian '
-    ),
-    React.createElement(
-        'p',
-        null,
-        ' This is some info.'
-    ),
-    React.createElement(
-        'ol',
-        null,
-        React.createElement(
-            'li',
-            null,
-            'Line item one.'
-        ),
-        React.createElement(
-            'li',
-            null,
-            'Line item two.e'
-        )
-    )
-);
+var onFormSubmit = function onFormSubmit(e) {
+    e.preventDefault();
+    var option = e.target.elements.option.value;
 
-// Create a templateTwo var jsx expression
-// div
-//  h1 -> Kristian Talley
-//  p -> age: 26
-//  p -> location:
-// render templateTwo instead of template
-
-var userName = 'KTHIZZLE';
-var userAge = 303;
-var counter = 0;
-var userLocation = 'urButt';
-
-var user = {
-    name: 'KTT',
-    age: 33
-    // location: 'beb'
+    if (option) {
+        rootApp.options.push(option);
+        e.target.elements.option.value = '';
+        // optionCount++;
+        optionCount = rootApp.options.length;
+    }
+    reRenderTemplate();
 };
 
-function getLocation(location) {
-    if (location) {
-        return React.createElement(
+var subButton = function subButton() {
+    rootApp.options.splice(-1);
+    optionCount = rootApp.options.length;
+    reRenderTemplate();
+};
+
+var resetButton = function resetButton() {
+    rootApp.options = [];
+    optionCount = rootApp.options.length;
+    reRenderTemplate();
+};
+
+var reRenderTemplate = function reRenderTemplate() {
+    var indecisonTemplate = React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h1',
+            null,
+            ' ',
+            rootApp.title,
+            ' '
+        ),
+        rootApp.subTitle && React.createElement(
+            'h3',
+            null,
+            rootApp.subTitle
+        ),
+        rootApp.options.length > 0 ? React.createElement(
             'p',
             null,
-            'Location: ',
-            location
-        );
-    } //else it returns null: rendering nothing!!!
-}
-
-//ternary operators are great if you want one of two things to happen.
-//the ampersand operator is great if you want only one thing to render,
-//else nothing.
-
-//ternary operator example
-true ? 'KTT' : 'Anonymous';
-
-//if suchnSuch is true, return KTT. Else, return anon.
-//can be written inline versus nesting inside a function.
-function getName(name) {}
-
-// for ( var x = 0; x < 1000; x++){
-//     counter+=x;
-//     console.log(counter); //lol
-// }
-
-var templateTwo = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        user.name ? user.name : 'Anon'
-        //if there is a user name, render it. Otherwise, render anon. 
-
-    ),
-    user.age && user.age >= 18 && React.createElement(
-        'p',
-        null,
-        'Age: ',
-        user.age,
-        ' '
-    ),
-    getLocation(user.location)
-);
-var count = 0;
-var someId = 'javaScriptVar-forID';
-var subId = 'subId';
-
-var addOne = function addOne() {
-    console.log('addOne');
+            ' There be options. '
+        ) : React.createElement(
+            'p',
+            null,
+            'No options.'
+        ),
+        React.createElement(
+            'p',
+            null,
+            ' Amount of Options: ',
+            optionCount
+        ),
+        React.createElement(
+            'ol',
+            null,
+            React.createElement(
+                'li',
+                null,
+                ' this is a list item '
+            ),
+            React.createElement(
+                'li',
+                null,
+                ' this is a list item '
+            )
+        ),
+        React.createElement(
+            'form',
+            { onSubmit: onFormSubmit },
+            React.createElement('input', { type: 'text', name: 'option' }),
+            React.createElement(
+                'button',
+                null,
+                'Add Option'
+            )
+        ),
+        React.createElement(
+            'button',
+            { onClick: subButton },
+            'Remove last option.'
+        ),
+        React.createElement(
+            'button',
+            { onClick: resetButton },
+            'Restart your to-do list.'
+        )
+    );
+    ReactDOM.render(indecisonTemplate, appRoot);
 };
-var subOne = function subOne() {
-    console.log('subOne');
-};
-var resetCount = function resetCount() {
-    console.log('reset');
-};
-var templateThree = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        'Count: ',
-        count
-    ),
-    React.createElement(
-        'button',
-        { id: someId, className: 'button', onClick: addOne },
-        '+1'
-    ),
-    React.createElement(
-        'button',
-        { id: subId, className: 'subButton', onClick: subOne },
-        '-1'
-    ),
-    React.createElement(
-        'button',
-        { id: someId, className: 'button', onClick: resetCount },
-        'Reset'
-    )
-);
 
-//challenge make button = -1 = setup minusOne function adn register -log "minusOne"
-//make reset button 'reset' - setup reset function - log 'reset' 
+var appRoot = document.getElementById('app');
 
-
-var appRoot = document.getElementById("app");
-
-ReactDOM.render(
-// indecisonTemplate,
-// templateTwo,
-templateThree, appRoot);
+reRenderTemplate();
