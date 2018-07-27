@@ -43,14 +43,23 @@ const subButton = () => {
     rootApp.options.length > 0 && rootApp.options.splice(-1);
     optionCount = rootApp.options.length;
     reRenderTemplate();
-}
+};
 
 const resetButton = () => {
     rootApp.options = [];
     optionCount = rootApp.options.length;
     reRenderTemplate();
     
-}
+};
+//floor method rounds, random method chooses a number between 0 and 0.999
+const onMakeDecision = () => {
+    const randomNum = Math.floor(Math.random() * rootApp.options.length);
+    const option = rootApp.options[randomNum];
+    alert(option);
+    // console.log(randomNum);
+};
+
+
 
 const numbers = [200, 55, 101];
 
@@ -62,6 +71,7 @@ const reRenderTemplate = () => {
             {/*only render subtitle if it exists*/}
             {rootApp.options.length > 0 ? <p> There be options. </p> : <p>No options.</p>}
             <p> Amount of Options: {optionCount}</p>
+            <button disabled = {rootApp.options.length === 0} onClick = {onMakeDecision}> What should I do? </button>
             <ol>
                 {/* map over app.options getting back an array of list */}
                 {rootApp.options.map( (option) => {

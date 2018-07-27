@@ -48,6 +48,13 @@ var resetButton = function resetButton() {
     optionCount = rootApp.options.length;
     reRenderTemplate();
 };
+//floor method rounds, random method chooses a number between 0 and 0.999
+var onMakeDecision = function onMakeDecision() {
+    var randomNum = Math.floor(Math.random() * rootApp.options.length);
+    var option = rootApp.options[randomNum];
+    alert(option);
+    // console.log(randomNum);
+};
 
 var numbers = [200, 55, 101];
 
@@ -81,6 +88,11 @@ var reRenderTemplate = function reRenderTemplate() {
             null,
             ' Amount of Options: ',
             optionCount
+        ),
+        React.createElement(
+            'button',
+            { disabled: rootApp.options.length === 0, onClick: onMakeDecision },
+            ' What should I do? '
         ),
         React.createElement(
             'ol',
