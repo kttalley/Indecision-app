@@ -1,5 +1,5 @@
 class Counter extends React.Component {
-    
+    //
     //state is an object that allows data to change
     //and re-render components
     //we set the default state in the constructor.

@@ -1,3 +1,4 @@
+let b = 'a';
 // const obj = {
 //     name: 'Vikram',
 //     getName() {
