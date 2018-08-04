@@ -46,16 +46,34 @@ var Counter = function (_React$Component) {
     }, {
         key: 'resetCount',
         value: function resetCount() {
-            this.setState(function (prevState) {
+            var _this2 = this;
+
+            this.setState(function () {
+
                 //return an object to update the state object and reRender the component.
+                //setState does not need an argument since it's not
+                //referencing the current count of the component,
+                //its only assigning/resetting it to 0, regardless of what it is.
                 return {
                     count: prevState.count = 0
                 };
+            });
+            //you can use two setStates in conjunction ONLY
+            //if you reference the previous state as an arg
+            //as it is batched async by react
+            this.setState(function (prevState) {
+                _this2.prevState.count + 1;
             });
         }
     }, {
         key: 'subOne',
         value: function subOne() {
+            //this.setState calls are async.
+            //react's effeciency batches setState() simulatenouesly,
+            //making it impossible to use setState in a linear way.
+            //unless you pass in an argument
+
+
             this.setState(function (prevState) {
                 return {
                     count: prevState.count <= 0 ? prevState.count = 0 : prevState.count - 1

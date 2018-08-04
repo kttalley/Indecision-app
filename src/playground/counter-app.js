@@ -27,17 +27,32 @@ class Counter extends React.Component {
     }
 
     resetCount(){
-       this.setState( (prevState) => {
-           //return an object to update the state object and reRender the component.
+       this.setState( () => {
+           
+            //return an object to update the state object and reRender the component.
+            //setState does not need an argument since it's not
+            //referencing the current count of the component,
+            //its only assigning/resetting it to 0, regardless of what it is.
             return {
                 count: prevState.count = 0
             }
        });
-
+       //you can use two setStates in conjunction ONLY
+       //if you reference the previous state as an arg
+       //as it is batched async by react
+       this.setState( (prevState) => {
+            this.prevState.count +1
+       });
 
     }
 
     subOne(){
+        //this.setState calls are async.
+        //react's effeciency batches setState() simulatenouesly,
+        //making it impossible to use setState in a linear way.
+        //unless you pass in an argument
+        
+        
         this.setState( (prevState) => {
             return {
                 count: 
