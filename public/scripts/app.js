@@ -35,7 +35,7 @@ var IndecisionApp = function (_React$Component) {
         _this.handlePick = _this.handlePick.bind(_this);
         _this.handleAddOption = _this.handleAddOption.bind(_this);
         _this.state = {
-            options: []
+            options: props.options
         };
         return _this;
     }
@@ -77,7 +77,7 @@ var IndecisionApp = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var title = 'Indecision';
+            var title = 'IndecisionApp';
             var subTitle = 'Put your life in the hands of a computerrrr';
             return React.createElement(
                 'div',
@@ -101,23 +101,24 @@ var IndecisionApp = function (_React$Component) {
     return IndecisionApp;
 }(React.Component);
 
-// Setup options prop for Options component
-// Render the length of the array
+IndecisionApp.defualtProps = {
+    options: []
 
-// class Header extends React.Component {
-//     render() {
+    // Setup options prop for Options component
+    // Render the length of the array
 
-//         return (
-//             <div>
-//                 <h1>{this.props.title} </h1>
-//                 <h2>{this.props.subTitle}</h2>
-//             </div>
-//         )
-//     }
-// }
+    // class Header extends React.Component {
+    //     render() {
 
-
-var Header = function Header(props) {
+    //         return (
+    //             <div>
+    //                 <h1>{this.props.title} </h1>
+    //                 <h2>{this.props.subTitle}</h2>
+    //             </div>
+    //         )
+    //     }
+    // }
+};var Header = function Header(props) {
     return React.createElement(
         'div',
         null,
@@ -126,30 +127,34 @@ var Header = function Header(props) {
             null,
             props.title
         ),
-        React.createElement(
+        props.subTitle && React.createElement(
             'h2',
             null,
             props.subTitle
         )
     );
 };
+//default props
+Header.defualtProps = {
+    title: 'Some default',
+    subtitle: 'P'
 
-//class component
-// class Action extends React.Component {
-//     render() {
-//         return (
-//             <div>
-//                 <button 
-//                     onClick = {this.props.handlePick}
-//                     disabled = {!this.props.hasOptions}
-//                 > 
-//                     What should I do next?
-//                 </button>
-//             </div>
-//         );
-//     }
-// }
-var Action = function Action(props) {
+    //class component
+    // class Action extends React.Component {
+    //     render() {
+    //         return (
+    //             <div>
+    //                 <button 
+    //                     onClick = {this.props.handlePick}
+    //                     disabled = {!this.props.hasOptions}
+    //                 > 
+    //                     What should I do next?
+    //                 </button>
+    //             </div>
+    //         );
+    //     }
+    // }
+};var Action = function Action(props) {
     return React.createElement(
         'div',
         null,
@@ -293,6 +298,6 @@ var User = function User(props) {
     );
 };
 
-ReactDOM.render(React.createElement(IndecisionApp, null),
+ReactDOM.render(React.createElement(IndecisionApp, { options: ['Option One', 'Option Two'] }),
 //    <User name = "Andrew" age = {26}/>, //stateless functional component
 document.getElementById('app'));

@@ -20,7 +20,7 @@ class IndecisionApp extends React.Component{
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
         this.state = {
-                options: []
+                options: props.options
         };
     }
     
@@ -51,11 +51,11 @@ class IndecisionApp extends React.Component{
         });
     } 
     render() {
-        const title = 'Indecision';
+        const title = `IndecisionApp`
         const subTitle = 'Put your life in the hands of a computerrrr';
         return (
             <div>
-                <Header title = {title} subTitle = {subTitle} />
+                <Header title = {title} subTitle = {subTitle}/>
                 <Action 
                     hasOptions = {this.state.options.length > 0 }
                     handlePick = {this.handlePick}    
@@ -73,6 +73,10 @@ class IndecisionApp extends React.Component{
     }
 }
 
+IndecisionApp.defualtProps = {
+    options: []
+}
+
 // Setup options prop for Options component
 // Render the length of the array
 
@@ -87,15 +91,23 @@ class IndecisionApp extends React.Component{
 //         )
 //     }
 // }
-const Header = (props) => 
-    <div>
-        <h1>
-            {props.title}
-        </h1>
-        <h2>
-            {props.subTitle}
-        </h2>
-    </div>
+const Header = (props) => {
+    return (
+        <div>
+            <h1>
+                {props.title}
+            </h1>
+        
+                {props.subTitle && <h2>{props.subTitle}</h2>}
+        
+        </div>
+    );
+}
+//default props
+Header.defualtProps = {
+    title: 'Some default',
+    subtitle: 'P'
+}
 
 //class component
 // class Action extends React.Component {
@@ -215,7 +227,7 @@ const User = (props) => {
 };
 
 ReactDOM.render (
-   <IndecisionApp />,
+   <IndecisionApp options = { ['Option One', 'Option Two']}/>,
 //    <User name = "Andrew" age = {26}/>, //stateless functional component
     document.getElementById('app')
 );
