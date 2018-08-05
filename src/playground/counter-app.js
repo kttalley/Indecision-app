@@ -11,7 +11,7 @@ class Counter extends React.Component {
 
         //define default state of component.
         this.state = {
-            count: 0
+            count: props.count
         };
     }
     addOne(){
@@ -71,6 +71,10 @@ class Counter extends React.Component {
             </div>
         );
     }
+
+}
+Counter.defaultProps = {
+    count: 10
 
 }
 

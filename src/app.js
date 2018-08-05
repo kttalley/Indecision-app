@@ -19,6 +19,7 @@ class IndecisionApp extends React.Component{
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.state = {
                 options: props.options
         };
@@ -26,12 +27,15 @@ class IndecisionApp extends React.Component{
     
     //handleDeleteOptions
     handleDeleteOptions() {
-        this.setState( () => {
-            return {
-                 options: []
-            };
-        });
+
+        this.setState( () => ({ options: [] }));
     }
+    handleDeleteOption(optionToRemove) {
+        this.setState((prevState) => ({
+            options: prevState.options.filter((option) => optionToRemove !== option)
+          }));
+    }
+
     handlePick() {
        const randomNum = Math.floor(Math.random() * this.state.options.length);
        const option = this.state.options[randomNum];
@@ -63,6 +67,7 @@ class IndecisionApp extends React.Component{
                 <Options 
                     options = {this.state.options} 
                     handleDeleteOptions = {this.handleDeleteOptions}
+                    handleDeleteOption = {this.handleDeleteOption}
                 />             
                 <AddOptions 
                     handleAddOption = {this.handleAddOption}    
@@ -154,7 +159,11 @@ const Options = (props) => {
     return (
         <div>
             {props.options.map( (option) => 
-                <Option key = {option} optionText = {option} />
+                <Option
+                    key = {option}
+                    optionText = {option} 
+                    handleDeleteOption = {props.handleDeleteOption}    
+                />
             )}
             <button onClick = {props.handleDeleteOptions}>
                 Clear list.
@@ -177,9 +186,19 @@ const Options = (props) => {
 const Option = (props) => {
     return (
         <div>
-            <p>
-                {props.optionText}
-            </p>
+            
+                {
+                    <div>
+                        {props.optionText+`          `}    
+                        <button onClick = { (e) =>{
+                            props.handleDeleteOption(props.optionText);
+                        }}>
+                            Remove 
+                        </button>
+                    </div>
+                }
+           
+            
         </div>
     );
 }
@@ -227,7 +246,7 @@ const User = (props) => {
 };
 
 ReactDOM.render (
-   <IndecisionApp options = { ['Option One', 'Option Two']}/>,
+   <IndecisionApp options = { [] }/>,
 //    <User name = "Andrew" age = {26}/>, //stateless functional component
     document.getElementById('app')
 );
