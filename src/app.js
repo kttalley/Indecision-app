@@ -1,78 +1,237 @@
-console.log('app.js is running!');
+// const obj = {
+//     name: 'Vikram',
+//     getName() {
+//         return this.name;
+//     }
+// };
 
-//babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
-
-
-
-
-
-//create app object title/subtitle
-//use title/subtitle in template
-//render template.
+// const getName = obj.getName.bind(obj);
 
 
-//only render the subtitle (and p tag) if subtitle exists -- logical & operator
-//render new p tag - if options.length > 0 "here are your options"
-//if not, no options.
+// console.log(getName());
+
+// stateless functional component
 
 
-const rootApp = {
-    title: 'Indecision App',
-    subTitle: 'Put yo life in the hands of a computah',
-    options: []
-
-}
-
-let optionCount = 0;
-
-const onFormSubmit = (e) => {
-    e.preventDefault();
-    const option = e.target.elements.option.value;
-    
-    if (option) {
-        rootApp.options.push(option);
-        e.target.elements.option.value = '';
-        // optionCount++;
-        optionCount = rootApp.options.length;
-    
+class IndecisionApp extends React.Component{
+    constructor(props) {
+        super(props);
+        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+        this.handlePick = this.handlePick.bind(this);
+        this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
+        this.state = {
+                options: props.options
+        };
     }
-    reRenderTemplate();
-};
-
-const subButton = () => {
-    rootApp.options.length > 0 && rootApp.options.splice(-1);
-    optionCount = rootApp.options.length;
-    reRenderTemplate();
-}
-
-const resetButton = () => {
-    rootApp.options = [];
-    optionCount = rootApp.options.length;
-    reRenderTemplate();
     
+    //handleDeleteOptions
+    handleDeleteOptions() {
+
+        this.setState( () => ({ options: [] }));
+    }
+    handleDeleteOption(optionToRemove) {
+        this.setState((prevState) => ({
+            options: prevState.options.filter((option) => optionToRemove !== option)
+          }));
+    }
+
+    handlePick() {
+       const randomNum = Math.floor(Math.random() * this.state.options.length);
+       const option = this.state.options[randomNum];
+       alert(option);
+    }
+    handleAddOption(option) {
+        if (!option) {
+            return 'Enter a valid item to the list.'
+        } else if (this.state.options.indexOf(option) > -1) {
+            return 'This item has already been added to the list.'
+        }
+        this.setState( (prevState) => {
+            // prevState.options.push(option); dont modify array
+            return {
+                options: prevState.options.concat([option])
+            };
+        });
+    } 
+    render() {
+        const title = `IndecisionApp`
+        const subTitle = 'Put your life in the hands of a computerrrr';
+        return (
+            <div>
+                <Header title = {title} subTitle = {subTitle}/>
+                <Action 
+                    hasOptions = {this.state.options.length > 0 }
+                    handlePick = {this.handlePick}    
+                />
+                <Options 
+                    options = {this.state.options} 
+                    handleDeleteOptions = {this.handleDeleteOptions}
+                    handleDeleteOption = {this.handleDeleteOption}
+                />             
+                <AddOptions 
+                    handleAddOption = {this.handleAddOption}    
+                />
+                
+            </div>
+        );
+    }
 }
 
-const numbers = [200, 55, 101];
+IndecisionApp.defualtProps = {
+    options: []
+}
 
-const reRenderTemplate = () => {
-    const indecisonTemplate = (
+// Setup options prop for Options component
+// Render the length of the array
+
+// class Header extends React.Component {
+//     render() {
+        
+//         return (
+//             <div>
+//                 <h1>{this.props.title} </h1>
+//                 <h2>{this.props.subTitle}</h2>
+//             </div>
+//         )
+//     }
+// }
+const Header = (props) => {
+    return (
         <div>
-            <h1> {rootApp.title} </h1>
-            { rootApp.subTitle && <h3>{rootApp.subTitle}</h3>}
-            {/*only render subtitle if it exists*/}
-            {rootApp.options.length > 0 ? <p> There be options. </p> : <p>No options.</p>}
-            <p> Amount of Options: {optionCount}</p>
-            <ol>
-                {/* map over app.options getting back an array of list */}
-                {rootApp.options.map( (option) => {
-                  return <li key = {option}>{option} </li>  
-                })}
-            </ol>
-    
-            <form onSubmit = {onFormSubmit}>
+            <h1>
+                {props.title}
+            </h1>
+        
+                {props.subTitle && <h2>{props.subTitle}</h2>}
+        
+        </div>
+    );
+}
+//default props
+Header.defualtProps = {
+    title: 'Some default',
+    subtitle: 'P'
+}
+
+//class component
+// class Action extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                 <button 
+//                     onClick = {this.props.handlePick}
+//                     disabled = {!this.props.hasOptions}
+//                 > 
+//                     What should I do next?
+//                 </button>
+//             </div>
+//         );
+//     }
+// }
+const Action = (props) => {
+    return (
+        <div>
+            <button 
+                onClick = {props.handlePick}
+                disabled = {!props.hasOptions}
+            
+            >
+                What should I do next?
+            </button>
+        </div>
+    )
+}
+
+// class Options extends React.Component {
+//     render() {
+//        return (
+//            <div>
+//            {
+//             this.props.options.map((option) => <Option key={option} optionText={option} />)
+//           }
+//            <button onClick = {this.props.handleDeleteOptions}> Clear list. </button>
+//            </div>
+//        );
+//     }
+// }
+const Options = (props) => {
+    return (
+        <div>
+            {props.options.map( (option) => 
+                <Option
+                    key = {option}
+                    optionText = {option} 
+                    handleDeleteOption = {props.handleDeleteOption}    
+                />
+            )}
+            <button onClick = {props.handleDeleteOptions}>
+                Clear list.
+            </button>
+        </div>
+        
+    );
+}
+
+// class Option extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                <p>{this.props.optionText}</p>
+//             </div>
+//         );
+//     }
+
+// }
+const Option = (props) => {
+    return (
+        <div>
+            
+                {
+                    <div>
+                        {props.optionText+`          `}    
+                        <button onClick = { (e) =>{
+                            props.handleDeleteOption(props.optionText);
+                        }}>
+                            Remove 
+                        </button>
+                    </div>
+                }
+           
+            
+        </div>
+    );
+}
+
+
+class AddOptions extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.state = {
+            error: undefined
+        };
+    }
+    onFormSubmit(e){
+        e.preventDefault();
+        const option = e.target.elements.option.value.trim();
+        const error = this.props.handleAddOption(option);
+        
+        this.setState( () => {
+            return {
+                error: error
+            }
+        });
+    }
+    render () {
+        return (
+          <div>
+            {this.state.error && <p>{this.state.error}</p>}
+            <form onSubmit = {this.onFormSubmit}>
                 <input type ="text" name = "option"/>
                 <button>Add Option</button>
             </form>
+<<<<<<< HEAD
             
             <button onClick = {subButton}>
                 Remove last option.
@@ -85,16 +244,24 @@ const reRenderTemplate = () => {
                // [ <p key = '0'>a</p>, <p key = '1'>b</p>, <p key = '2'>c</p>]
                 // numbers.map( (number) => <p key={number}>Number: {number}</p>)
             }
+=======
+          </div>  
+        );
+    }
+}
+//stateless functional component
+const User = (props) => {
+    return (
+        <div>
+            <p> Name: {props.name} </p>
+            <p> Age:{props.age} </p>
+>>>>>>> dev
         </div>
-    );
-    ReactDOM.render(
-        indecisonTemplate,
-            appRoot
     );
 };
 
-
-
-const appRoot = document.getElementById('app');
-
-reRenderTemplate();
+ReactDOM.render (
+   <IndecisionApp options = { [] }/>,
+//    <User name = "Andrew" age = {26}/>, //stateless functional component
+    document.getElementById('app')
+);
