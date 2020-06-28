@@ -208,7 +208,7 @@ var Options = function Options(props) {
         React.createElement(
             'button',
             { onClick: props.handleDeleteOptions },
-            'Clear list.'
+            'Clear list, PLX.'
         )
     );
 };
@@ -288,7 +288,7 @@ var AddOptions = function (_React$Component2) {
                     React.createElement(
                         'button',
                         null,
-                        'Add Option'
+                        'Add Option, BROOO'
                     )
                 )
             );
